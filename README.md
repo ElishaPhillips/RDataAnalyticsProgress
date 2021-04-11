@@ -332,7 +332,7 @@
   ##### lm(sales ~ TV + radio + newspaper, advertising)
   
   ##### Residuals:
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/61398539aa86ba724e9cb12abbbe7757235bbcf7/Images/6/6.plot.1.png
+  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/61398539aa86ba724e9cb12abbbe7757235bbcf7/Images/6/6.plot.1.png)
 
   ##### Coefficient of determination for the fit: r^2 = 0.8972
   
@@ -353,12 +353,47 @@
 <details>
   <summary>7. PCA and K-Clustering</summary>
   
-  ## Heading
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.pairs.1.png)
+  ##### Iris Set PCA and K-Means Clustering
+  ###### Initial Scatterplot of petal width vs. petal length colored by the subspecies:
+  
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.plot.1.png)
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.plot.2.png)
+  
+  ##### Variance explained with the four numerical columns as inputs:
+  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/c15bce1fee8fdef856fd5021bf43a94f8e3a7f24/Images/7/7.hist.1.png)
+
+  ##### Importance of components:
+ > #####                           PC1    PC2     PC3     PC4
+ > ##### Standard deviation     1.7061 0.9598 0.38387 0.14355
+ > ##### Proportion of Variance 0.7277 0.2303 0.03684 0.00515
+ > ##### Cumulative Proportion  0.7277 0.9580 0.99485 1.00000
+ 
+ ##### 95% of the variance is explained by the first 2 principal components
+ 
+ ##### Scatterplot matrix:
+ ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.pairs.1.png)
+ 
+ ##### Scatter plot of the 2 selected principal components colored by subspecies
+ ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.plot.2.png)
+ 
+ ##### Original Loading
+> #####                     PC1         PC2        PC3        PC4
+> ##### sepal_length  0.5223716 -0.37231836  0.7210168  0.2619956
+> ##### sepal_width  -0.2633549 -0.92555649 -0.2420329 -0.1241348
+> ##### petal_length  0.5812540 -0.02109478 -0.1408923 -0.8011543
+> ##### petal_width   0.5656110 -0.06541577 -0.6338014  0.5235463
+ 
+  ##### Applying K means clustering to the dataset using all 4 PC's as a benchmark 
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.plot.3.png)
+
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.plot.4.png)
+ 
+  ##### Applying K means clustering to the dataset using the 2 selected PC's
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.plot.5.png)
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/8d8855ba3db627c767d221213b7c577b6582c549/Images/7/7.plot.6.png)
+  
+  ##### Total Withins Sum of Squares:
+ 
+  > ##### Original K-Means Clustering: 78.94
+  > ##### With 2 Principal Components: 171.32
+  
 </details>
