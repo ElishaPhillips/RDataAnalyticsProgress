@@ -47,18 +47,17 @@
   
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.boxplot.4.png)
       
-   </details>
-   # 
+   </details> 
    
    ##### Based on the boxplots above, I selected the Cappuccino, Cinema, Wine, and Avg.Rent to investigate further. 
    ##### Running the columns through a Rosner test:
    # 
    
-   ###### $data.name
-   ###### [1] "COL$Cappuccino"
-   ###### $all.stats
-   ######   i   Mean.i      SD.i Value Obs.Num    R.i+1 lambda.i+1 Outlier
-   ###### 1 0 1.981481 0.7371312  4.48      10 3.389517   3.628495   FALSE
+ > ###### $data.name
+ > ###### [1] "COL$Cappuccino"
+ > ###### $all.stats
+ > ######   i   Mean.i      SD.i Value Obs.Num    R.i+1 lambda.i+1 Outlier
+ > ###### 1 0 1.981481 0.7371312  4.48      10 3.389517   3.628495   FALSE
    #   
    
    ###### $data.name
