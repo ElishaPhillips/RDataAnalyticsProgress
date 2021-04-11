@@ -1,0 +1,656 @@
+---
+title: "Intro To Data Analytics"
+author: "Elisha Phillips"
+date: "4/11/2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+```{r global options, include = FALSE}
+knitr::opts_chunk$set(echo=TRUE,
+                      include = TRUE, 
+                      warning=FALSE, 
+                      message=FALSE)
+```
+
+```{r Setup}
+#Libraries
+library("plyr")
+library("tidyverse")
+library("ggcorrplot")
+library("GGally")
+library("viridis")
+library("hunspell")
+library("EnvStats")
+library("data.table")
+library("MASS")
+library("reshape2")
+library("grid")
+library("FactoMineR")
+
+#airqual <- read.csv("Pullman_Air_Quality.csv")
+#COL = read.csv("COL.csv")
+#COL2 <- read.csv("COL2.csv")
+#HWAS = read.csv("Height_Weight_Age_Sex.csv")
+#BB2020 <- read.csv("2020bb_values.csv")
+#ratings_raw<-read.csv("MovieRating_rawData.csv")
+#ratings_disney<-read.csv("MovieRating_disneyMovies.csv")
+#educationincome <- read.csv("education_income.csv")
+#ISLR <- read.csv("default_ISLR.csv")
+#advertising <- read.csv("Advertising.csv")
+#iris <- read.csv("iris_data.csv")
+
+```
+
+```{r 1.Analysis}
+
+
+ggplot(data=ratings_raw, mapping = aes(x=age, y=rating, color=gender, stroke=0.01))+
+  geom_jitter()+
+  xlab("Age")+
+  ylab("Rating")+
+  ggtitle("Distribution of Ratings By Age and Gender")+
+  theme(legend.title = element_blank())
+
+ggplot(data=ratings_disney, aes(factor(Movie))) + 
+  geom_point(aes(y = Avg..Rating.Women, color="Female"), size=3)+
+  geom_point(aes(y = Avg..Rating.Men, color="Male"), size=3)+ 
+  xlab("  ")+
+  ylab("Rating")+
+  ggtitle("Disney Movie Ratings by Gender")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  labs(color = "Gender")
+
+ 
+ 
+#I noticed the rating of Disney movies is higher, on average, for females when compared to male reviewers. 
+
+
+#Potential explanations: One potential explanation is the target market for Disney films trend towards a female demographic. Another point to note is a study done by the Center for the Study of Women in Television and Film, which found that "female critics tend to give higher ratings to films with women in leading roles than male critics do."(https://www.nytimes.com/2018/07/17/movies/male-critics-are-harsher-than-women-on-female-led-films-study-says.html) A better analysis could comprise of a larger selection of reviewers. In addition the selection of movies could be higher, to show a more conclusive trend.
+
+```
+```{r 2.EDA}
+
+summary(COL$City)
+COL$Spellcheck <- as.data.frame.character(hunspell(COL$City))
+COL$"Row ID" <- seq.int(nrow(COL))
+
+
+# Cappuccino
+summary(COL$Cappuccino)
+ggplot(COL, aes(x=Cappuccino))+
+  geom_boxplot()
+
+# Cinema
+summary(COL$Cinema)
+ggplot(COL, aes(x=Cinema))+
+  geom_boxplot()
+
+# Wine
+summary(COL$Wine)
+ggplot(COL, aes(x=Wine))+
+  geom_boxplot()
+
+# Gasoline
+summary(COL$Gasoline)
+ggplot(COL, aes(x=Gasoline))+
+geom_boxplot()
+
+# Avg.Rent
+summary(COL$Avg.Rent)
+ggplot(COL, aes(x=Avg.Rent))+
+  geom_boxplot()
+
+# Avg.Disposable.Income
+summary(COL$Avg.Disposable.Income)
+ggplot(COL, aes(x=Avg.Disposable.Income))+
+   geom_boxplot()
+
+#Based on the boxplots above, I selected the Cappuccino, Cinema, Wine, and Avg.Rent to investigate further. I also ran the City column through a spellcheck function to see if I could find any further errors.
+
+
+test_Cappuccino <- rosnerTest(COL$Cappuccino,k = 1)
+test_Cappuccino
+
+test_Cinema <- rosnerTest(COL$Cinema,k = 2)
+test_Cinema
+
+test_Wine <- rosnerTest(COL$Wine,k = 5)
+test_Wine
+
+test_Avg.Rent <- rosnerTest(COL$Avg.Rent,k = 6)
+test_Avg.Rent
+
+
+# Cappuccino Test Results:
+test_Cappuccino$all.stats
+
+# Cinema Test Results:
+test_Cinema$all.stats
+
+# Wine Test Results:
+test_Wine$all.stats
+
+
+# Avg.Rent Test Results:
+test_Avg.Rent$all.stats
+
+
+#Outliers:
+
+#Cinema:
+#Row 115, Riyadh -$79.49
+  
+#Wine:
+#Row 127, Manama - $19.61
+#Row 174, Tehran - $26.15
+  
+#Avg.Rent:
+#Row 37, Hong Kong - $5,052
+
+#In this specific case I would either exclude the rows from the dataset, or find an alternative dataset to crossreference. One could also estimate the appropriate value instead, such as using a simple mean or a more complicated algorithm. After reviewing each of the outlier rows, the outliers in question are particularly suspect and don't represent an accurate value.
+
+
+
+#Boxplots for the height and weight columns 
+ggplot(HWAS, aes(x="",y=height))+
+         geom_boxplot(fill="#D8B70A")+
+         xlab("Height")+
+         ylab("")+
+         ylim(25, 200)
+
+ggplot(HWAS, aes(x="",y=weight))+
+         geom_boxplot(fill="#81A88D")+
+         xlab("Weight")+
+         ylab("")+
+         ylim(0, 75)
+
+#Analysis:
+
+#For the Height boxplot, the count distribution is asymetrical, with the majority of the data lying in the ~130 to 170 range. There lies some notable outliers in the 50 through 75 range. The median is around 75% towards the top of the box, featuring a negative skew.*
+
+#For the Weight boxplot, the count distribution is also asymmetrical, with no outliers shown.The box plot is skewed negatively.
+
+#Histograms for the height and weight columns 
+
+ggplot(HWAS, aes(x=height))+
+         geom_histogram(binwidth=2, fill="#D8B70A")+
+         xlab("Height")+
+         ylab("Count")
+
+ggplot(HWAS, aes(x=weight))+
+         geom_histogram(binwidth=1.5, fill="#81A88D")+
+         xlab("Weight")+
+         ylab("Count")
+
+#Analysis:
+
+#For the Height histogram, the count distribution is asymetrical, with a fairly symmetrical hill from ~130-170, and a dip in count at about 155. This is where the majority of the data lies. We do see a definitive negative skewness. From 50 through 125, there is a much smaller amount of values and a small outlier at the 179 mark. I was not expecting to see the amount of values in the 75-125 range, as compared to the boxplot. The symmetry and skewness analysis did remain consistent.
+
+#For the Weight histogram, the count distribution is asymmetrical and has 2 peaks, one from 0-30 and another from 30-60. There are 3 notable outliers: at 7, and 11-12, and at 47. The graph is skewed negatively here as well.I ws not expecting to see the first hill, in the 0-30 range as compared to the boxplot, nor the outliers. The skewness analysis remained consistent. 
+
+#Separate boxplots for the weight data separated by the Male variable
+
+HWAS_MALE <- filter(HWAS, male==1)
+HWAS_FEMALE <- filter(HWAS, male==0)
+
+ggplot(HWAS_MALE, aes(x="",y=weight))+
+         geom_boxplot(fill="#D8B70A")+
+         xlab("Male Weight")+
+         ylab("")+
+         ylim(0, 75)
+
+ggplot(HWAS_FEMALE, aes(x="",y=weight))+
+         geom_boxplot(fill="#81A88D")+
+         xlab("Female Weight")+
+         ylab("")+
+         ylim(0, 75)
+
+#Analysis: I noticed that the negative skew remains similar for both male and female weights, though the female weight remains lower on average and has less of a distribution.
+
+
+#Adding a BMI column and an underweight column 
+
+HWAS$BMI <- HWAS$weight/((HWAS$height/100)**2)
+
+HWAS$underweight <- HWAS$BMI <18.5
+
+head(HWAS)
+
+
+#Histograms for the BMI column separated by the Male variable
+
+HWAS_MALE <- filter(HWAS, male==1)
+HWAS_FEMALE <- filter(HWAS, male==0)
+
+ggplot(HWAS_MALE, aes(x=BMI))+
+         geom_histogram(fill="#D8B70A")+
+         xlab("Male BMI")+
+         ylab("")+
+         xlim(8, 27)
+
+ggplot(HWAS_FEMALE, aes(x=BMI))+
+         geom_histogram(fill="#81A88D")+
+         xlab("Female BMI")+
+         ylab("")+
+         xlim(8, 27)
+
+#Analysis: I noticed that the male BMI is more symmetrically skewed than the female BMI chart, though both are negatively skewed.The male histogram also highlights two small outliers to the right.The male BMI also peaks at 1 lower than the female chart.
+
+
+#Scatterplot of height vs. weight for the full dataset that distinguishes both by gender and whether or not the individual is underweight
+
+ggplot(HWAS, aes(x=height, y=weight, shape=underweight, fill=factor(male), color=factor(male)))+
+  geom_point(size=2.5, alpha=0.55)+
+  scale_shape_manual(values = c(21, 3), labels=c("No", "Yes"))+
+  scale_fill_manual(values=c("#972D15", "#3B9AB2"))+
+  scale_color_manual(values=c("#972D15", "#3B9AB2"), labels=c("Female", "Male"))+
+  labs(shape="Underweight", color="Gender", x="Height", y="Weight")+
+  guides(fill=FALSE)+
+  guides(color = guide_legend(override.aes = list(shape = 19, size=4)),
+         shape = guide_legend(override.aes = list(fill = "black", size=4)))
+
+#Analysis: I noticed for the underweight category, male and female remain a consistent grouping, with an even distribution across the x (height) axis from 50 to 200. As we look at non-underweight variables, the grouping is centered from 130 to 200 with one outlier at around 60 on the x axis. In addition, there is a clear trend towards the males in the dataset being both taller and heavier than the female set. The non-underweight grouping also remains positioned above the underweight grouping, as one would expect to see.
+```
+
+```{r 3.ExaminingCorrelations}
+#Data from 2020 Basketball Rankings
+cormat <- round(cor(BB2020[, c(1,5,seq(6,18,2))]),2)
+print(cormat)
+
+ggcorrplot(cormat,
+           hc.order = TRUE,
+           type = "lower",
+           outline.col = "white",
+           color = c("darkslategrey", "white", "darkred"),
+           lab=TRUE)
+
+#The Rank column and the AdjEM column are most strongly correlated at -0.98. The Luck column is least correlated across the board.
+
+#Narrowing to teaMS in PAC12 
+
+BB2020_P12 <- BB2020[BB2020$Conf == 'P12', c(1,5,seq(6,18,2))]
+cormatP12 <- round(cor(BB2020_P12),2)
+print(cormatP12)
+
+ggcorrplot(cormatP12,
+           hc.order = TRUE,
+           type = "lower",
+           outline.col = "white",
+           color = c("#55CDFC", "white", "#F7A8B8"),
+           lab=TRUE)
+
+#Again, the Rank and AdjEM columns are most strongly correlated - though this time with an even stronger correlation of -0.99. AdjEM seems to have the highest correlation across all columns. SoS_OppO is least strongly correlated across the columns. This time, luck surprisingly seems to have a stronger correlation to other columns. Also the correlation between rank and the other columns is significantly lower on average.
+
+
+#Examining Cost of Living per city
+ggpairs(COL2, columns = 2:7)
+
+#Income seems to be one of the strongest correlating values to the other variables, except in the case of wine and gasoline.Both wine and gasoline indicate not much of a significantly measurable relationship between the other variables. The strong relationship between cinema and cappuccino seems like an interesting relationship to note. 
+
+ggplot(COL2, aes(x=Cappuccino, y=Cinema, color=Income))+
+  geom_point()+
+  scale_color_viridis(option = "magma")+
+  labs(title = "Cappuccino and Cinema Purchases Relationship")
+
+#First, the relationship seems to hold true - people who spend less on drinks per month are less likely to spend money on going to movies. Secondly income plays a consistent factor, those who make more are observed to spend more on purchases like these - though the relationship is more scattered at higher income. 
+
+```
+
+```{r 4.ExaminingDistributions}
+
+##Generating 50 samples each of size n = 10 from the Normal distribution with parameters μ = 2 and standard deviation = 3 as 50 x 10 matrix.
+
+set.seed(2021)
+
+nmatrix <- matrix(rnorm(10, 25, 3), ncol=10, nrow=50)
+
+#Histogram:
+matrix_row_means <- rowMeans(nmatrix)
+#hist(matrix_row_means, main="Histogram of the Sample Matrix row means, n=10")
+
+
+
+#Checking normality:
+qqnorm(matrix_row_means)
+
+qqline(matrix_row_means)
+
+
+
+#Analysis: The points form a linear trend in the center as expected, however the extremities do not follow the same behavior and are distinctly grouped away. This would suggest the sample set does not follow a normal distribution.
+
+
+##Generating 500 samples each of size n = 1000 from the Normal distribution with parameters μ = 2 and standard deviation = 3 
+
+nmatrix2 <- matrix(rnorm(10000, 25, 3), ncol=10, nrow=50)
+
+#Histogram
+matrix_row_means_2 <- rowMeans(nmatrix2)
+hist(matrix_row_means_2, main="Histogram of the Sample Matrix row means, n=1000")
+
+
+#Checking normality:
+qqnorm(matrix_row_means_2)
+qqline(matrix_row_means_2)
+
+
+#Analysis
+#Both tails veer away from the distribution line, though there is more continuity with a higher sample set than in the previous plot. I would conclude that there is still a higher number of extremities than one would find in a normal distribution set.
+
+#Examining Pullman Washington Air Quality Data Mean and Distribution
+paste("The mean of the PM_Concentration column is:", round(mean(airqual$PM_Concentration), 4))
+paste("The standard deviation of the PM_Concentration column is:",  round(sd(airqual$PM_Concentration), 4))
+
+
+#Histogram of the PM_Concentration column with am overlay a plot of the normal distribution with mean and standard deviation 
+xs <- seq(-5, 15, .5)
+ys <- dnorm(xs, 3.5, 2.4)
+
+hist(airqual$PM_Concentration, breaks=25, freq=FALSE, xlab="PM Concentration", main="Histogram of Pullman Air Quality PM Concentration")
+lines(xs,ys,col='darkred',lw=5)
+
+#Whats interesting to note is the PM Concentration tails to the right past PM6. On further analysis this is most likely due to the significant wildfire season in 2020, this notion is further evidenced by the dates of the extreme values occurring beyond July. 
+```
+
+```{r 5.LinearRegression}
+ggplot(educationincome, aes(x=Median.HH.Income, y=BS.Perc))+
+  geom_point()+
+  xlab("Median Household Income")+
+  ylab("Percentage of BS Holders")
+
+#There appears to be a clear linear trend in the two variable's relationship.
+
+#Fittting a simple linear model
+
+mbs <- lm(BS.Perc~Median.HH.Income, data = educationincome)
+summary(mbs)
+
+#Best Fit
+ggplot(educationincome, aes(x=Median.HH.Income, y=BS.Perc))+
+  geom_point()+
+  geom_smooth(method="lm",formula=y~x)+
+  xlab("Median Household Income")+
+  ylab("Percentage of BS Holders")
+
+
+paste("The coefficient of determination is:", round(summary(mbs)$r.squared, 5))
+
+
+#QQ plot of the residuals:
+
+resb = resid(mbs)
+qqnorm(resb, 
+     ylab="Residuals", 
+     xlab="Normal Scores", 
+     main="PercBS~HHinc") 
+qqline(resb)
+
+#I would conclude the residuals are a lightly tailed distribution. 
+
+#Residuals vs Fitted values
+plot(mbs, which=1) 
+
+#There is a notable bend in the fit on the left side through 27, I would mark that as possibly problematic. In addition, the graph marks 3 possible outliers as well. Also, the spread of the residuals is increasing as the graph moves towards the right.
+
+#Picking another set:
+testcorr <- round(cor(subset(educationincome, select = -c(X.State))), 3)
+head(testcorr)
+
+#BS Rank vs ADV Percentage:
+ggplot(educationincome, aes(x=BS.rank, y=ADV.Perc))+
+  geom_point()+ 
+  xlab("BS Rank")+ 
+  ylab("ADV Percentage") 
+
+#Looks like a decently strong negative correlation in the two variable's relationship.
+
+advrank <- lm(ADV.Perc~BS.rank, data = educationincome)
+summary(advrank) 
+
+ggplot(educationincome, aes(x=BS.rank, y=ADV.Perc))+ 
+  geom_point()+ 
+  geom_smooth(method="lm",formula=y~x)+ 
+  xlab("BS Rank")+ 
+  ylab("ADV Percentage") 
+
+
+paste("The coefficient of determination is:", round(summary(advrank)$r.squared, 5)) 
+
+#QQ Plot of the residuals
+resa = resid(advrank)
+qqnorm(resa,
+     ylab="Residuals",
+     xlab="Normal Scores", 
+     main="ADV.Perc~BS.Rank")
+qqline(resa) 
+
+#Residuals vs Fitted values
+plot(advrank, which=1) 
+
+#Observed differences: The tails on this qqplot are much more heavily skewed beyond 1, and the residuals vs fitted plot doesn't seem to hold as close to the centerline. There does seems to be a quadratic relationship. Also, the heteroskedacity holds closer and remains more consistent from left to right. 
+
+
+```
+
+#First Model:
+
+$$
+y = 5.237 + 0.0004581 x
+$$
+#Where Y = Percentage of BS Holders and X = Median Household Income
+
+#Second Model:
+
+$$ 
+
+y = 15.47694 - 0.15786 x 
+
+$$ 
+
+#Where Y = ADV percentage and X = BS Rank 
+
+```{r 6.Multiple and Logistic Regression}
+
+#Scatterplot matrix:
+ggpairs(advertising, title="Advertising")
+
+#Fitting a multiple linear regression model using all three media columns as predictors with the sales column as the dependent variable 
+
+sales.lm <- lm(sales ~ TV + radio + newspaper, advertising)
+summary(sales.lm)
+
+par(mfrow=c(2,2))
+plot(sales.lm)
+
+ISLR$default <- as.numeric(revalue(ISLR$default, c("Yes"=1,"No"=0)))
+
+# Fiting a logistic regression model to this data with response variable y being the default column, $p$ being the probability of default, and $x$ being the balance column
+ISLR.lmr <- glm(default ~ balance, family=binomial(link='logit'), ISLR)
+
+
+ISLR$defaultP <- ISLR.lmr$fitted.values
+ISLR$defaultPL <- ifelse(ISLR$defaultP<.5, 0, 1)
+
+ISLR$correct <- ifelse(ISLR$default == ISLR$defaultPL, 0, 1)
+                  
+
+ggplot(ISLR, aes(x=income, y=balance,
+                 alpha=factor(correct), 
+                 color=factor(correct),
+                 shape=factor(default)))+
+  geom_point()+
+  xlab("Income")+
+  ylab("Balance")+
+  ggtitle("Fitted Model Accuracy: 97.25%")+
+  scale_shape_discrete(name= "Defaulted",
+                     labels = c("No", "Yes"))+
+  scale_color_manual(name = "Predicted Default",
+                     labels = c("Correct", "Incorrect"), 
+                     values=c("darkturquoise", "deeppink"))+
+  scale_alpha_manual(values = c(0.15, 0.7), guide = FALSE)
+
+paste("The model's accuracy is",  (mean(ISLR$defaultPL == ISLR$default)*100), "%")
+paste("The probability that someone with a balance of $1,950 will default is", round((predict(ISLR.lmr, list("balance"=1950), type = "response")*100), 2), "%")
+
+```
+
+
+#Multiple linear model:
+
+$$
+y_{i} = 2.938889 + 0.045765x_{i1} + 0.188530x_{i2} - 0.001037x_{i3}
+$$
+
+
+#y_{i} = Advertising$sales
+#x_{i1} = Advertising$TV
+#x_{i2} = Advertising$radio
+#x_{i3} = Advertising$newspaper
+
+
+#Coefficient of determination: 
+$$
+r^2 = 0.8972
+$$
+
+
+
+#Logistic fitted model:
+
+$$
+\ln\left(\frac{P}{1-P}\right) = -10.65 + 549.9x_i
+$$
+
+x_i = ISLR$balance
+
+```{r 7.PrincipalComponentKCluster}
+
+pal = c("#CF4917","#2D758C","#FF68A8") 
+
+#Classic Iris Set Clustering
+
+#Scatterplot of petal width vs. petal length colored by the subspecies:
+
+ggplot(iris, aes(x=petal_length,y=petal_width,,color=type))+
+  geom_point()+
+  xlab("Petal Length")+
+  ylab("Petal Width")+
+  labs(color="Subspecies",
+       title = "Petal Width vs Petal Length")+
+  scale_color_manual(values=pal,
+                     labels = c("Setosa",
+                                "Versicolor",
+                                "Virginica"))+
+  theme_light(base_size = 14, base_family = "Calibri Light")
+
+#PCA  on the data with the four numerical columns as inputs:
+
+iris.pca <- prcomp(iris[,1:4], center = TRUE, scale. = TRUE)
+screeplot(iris.pca)
+summary(iris.pca)
+
+pairs(iris.pca$x)
+
+iris.dat <- data.table(PC1=iris.pca$x[,1],PC2=iris.pca$x[,2],Species=iris[,5])
+iris.dat <- iris.dat[order(iris.dat$Species),]
+
+#Scatter plot of the top two principal components colored by subspecies:
+
+ggplot(iris.dat,aes(x=PC1,y=PC2, color=Species))+
+  geom_point(size = 2)+
+  labs(color="Subspecies",
+       title = "Iris PCA")+
+  scale_color_manual(values=pal,
+                     labels = c("Setosa",
+                                "Versicolor",
+                                "Virginica"))+
+  theme_light(base_size = 14, base_family = "Calibri Light")
+
+#Original Loading:
+head(iris.pca$rotation)
+
+#Applying K means clustering to the dataset using all 4 PC's as a benchmark
+
+irisk <- kmeans(iris[,1:4], 3)
+iris$cluster3 <- irisk$cluster
+
+ggplot(iris,aes(x=sepal_length,y=sepal_width,color=as.factor(cluster3))) +
+geom_point(size = 2)+
+  xlab("Sepal Length")+
+  ylab("Sepal Width")+
+  labs(color="Subspecies",
+       title = "Iris K Cluster Sepal: Numeric Columns")+
+  scale_color_manual(values=pal,
+                     labels = c("Setosa",
+                                "Versicolor",
+                                "Virginica"))+
+  theme_light(base_size = 14, base_family = "Calibri Light")
+
+ggplot(iris,aes(x=petal_length,y=petal_width,color=as.factor(cluster3))) + geom_point(size = 2)+
+  xlab("Petal Length")+
+  ylab("Petal Width")+
+  labs(color="Subspecies",
+       title = "Iris K Cluster Petal: Numeric Columns")+
+  scale_color_manual(values=pal,
+                     labels = c("Setosa",
+                                "Versicolor",
+                                "Virginica"))+
+  theme_light(base_size = 14, base_family = "Calibri Light")
+
+# Applying K means clustering to the dataset using the 2 selected PC's
+
+iris$pc1 <- iris.dat[,1]
+iris$pc2 <- iris.dat[,2]
+
+irisk.pc <- kmeans(iris.dat[,1:2],3)
+
+iris$pcacluster <- irisk.pc$cluster
+
+
+ggplot(iris,aes(x=sepal_length,y=sepal_width,color=as.factor(pcacluster))) +
+geom_point(size = 2)+
+  xlab("Sepal Length")+
+  ylab("Sepal Width")+
+  labs(color="Subspecies",
+       title = "Iris K Cluster Sepal: Principal Components")+
+  scale_color_manual(values=pal,
+                     labels = c("Setosa",
+                                "Versicolor",
+                                "Virginica"))+
+  theme_light(base_size = 14, base_family = "Calibri Light")
+
+ggplot(iris,aes(x=petal_length,y=petal_width,color=as.factor(pcacluster))) + geom_point(size = 2)+
+  xlab("Petal Length")+
+  ylab("Petal Width")+
+  labs(color="Subspecies",
+       title = "Iris K Cluster Petal: Principal Components")+
+  scale_color_manual(values=pal,
+                     labels = c("Setosa",
+                                "Versicolor",
+                                "Virginica"))+
+  theme_light(base_size = 14, base_family = "Calibri Light")
+
+paste("K Means Clustering with Numeric Columns:", round(irisk$tot.withinss,2))
+paste("K Means Clustering with Principal Components:", round(irisk.pc$tot.withinss,2))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
