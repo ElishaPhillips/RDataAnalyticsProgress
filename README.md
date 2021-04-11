@@ -6,8 +6,9 @@
 <details>
   <summary>1. Visual Analysis</summary>
   
-  #### From: MovieRating_disneyMovies.csv
-  #
+  #### Analysis of Disney Movie Ratings
+  ##### From: MovieRating_disneyMovies.csv
+  
   
   <details>
     <summary>2. Graphs</summary>
@@ -20,7 +21,6 @@
   #
   
   #### Analysis:
-  #
   
   ##### I noticed the rating of Disney movies is higher, on average, for females when compared to male reviewers. 
   ##### Potential explanations: One potential explanation is the target market for Disney films trend towards a female demographic. Another point to note is    a study done by the Center for the Study of Women in Television and Film, which found that "female critics tend to give higher ratings to films with women    in leading roles than male critics do."
