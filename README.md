@@ -44,7 +44,7 @@
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.plotgas.png)
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.plotrent.png)
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.plotwine.png)
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.scatter.png)
+  
 
       
    </details> 
@@ -52,6 +52,10 @@
    ##### Based on the boxplots above, I selected the Cappuccino, Cinema, Wine, and Avg.Rent to investigate further. 
    ##### Running the columns through a Rosner test:
    # 
+ 
+ ##### $all.stats
+ <details>
+  <summary>2. Rosner Test</summary>
  
  > ###### $data.name
  > ###### [1] "COL$Cappuccino"
@@ -85,7 +89,9 @@
  > ###### 5 4 1046.270 563.3998 2607.95       3 2.771886   3.622942   FALSE 
  > ###### 6 5 1038.869 554.3124 2590.76      63 2.799669   3.621535   FALSE  
    #   
-   
+  </details> 
+  
+  
    ###### Identified Outliers:
    #  
    
@@ -113,8 +119,7 @@
   
    ##### Boxplots:
    
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.boxplot.1.png)
-  
+  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.boxplot.1.png)  
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.boxplot.2.png)
   
    </details>
@@ -124,8 +129,7 @@
   
   ##### Histograms:  
   
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.hist.1.png)
-  
+  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.hist.1.png)  
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.hist.2.png)
   
    </details>
@@ -134,8 +138,7 @@
     <summary> Boxplots Weight By Gender</summary>
   
   ##### Boxplots Weight by Gender:
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.boxplot.3.png)
-  
+  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.boxplot.3.png)  
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.boxplot.4.png)
   
   </details>
@@ -150,6 +153,8 @@
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.hist.4.png)
   
   </details>
+  
+  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.scatter.png)
 </details>
 
 <details>
