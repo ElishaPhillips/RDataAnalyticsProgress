@@ -320,12 +320,34 @@
 <details>
   <summary>6. Multivariate and Logistic Algorithms</summary>
   
-  ## Heading
-  1. A numbered
-  6
+  ### Advertisement Investment Sales Metrics Multivariate Linear Analysis
+  ##### From advertisment.csv
+  
+  ##### Correlation Matrix between all columns: 
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/7b0d5dfffc5201eac9559ba46a8f2d0aabe8900a/Images/6/6.pairs.1.png)
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/61398539aa86ba724e9cb12abbbe7757235bbcf7/Images/6/6.plot.1.png)
+  
+  ##### Analysis: Based on this plot, it seems that multiple linear regression would be appropriate to attempt due to the correlation between the media types   and the sales. The TV advertisements seem to hold the strongest correlation, while the radio and newspaper come in second and third. 
+  
+  ##### Fitting a multiple linear regression model using all three media columns as predictors with the sales column as the dependent variable 
+  ##### lm(sales ~ TV + radio + newspaper, advertising)
+  
+  ##### Residuals:
+  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/61398539aa86ba724e9cb12abbbe7757235bbcf7/Images/6/6.plot.1.png
+
+  ##### Coefficient of determination for the fit: r^2 = 0.8972
+  
+  ### ISLR Student Default Logistic Regression Analysis
+  ##### From default_ISLR.csv
+
+  ##### Fitted model:
+   $$
+    \ln\left(\frac{P}{1-P}\right) = -10.65 + 549.9x_i
+   $$
+  
+  ##### Plotting accuracy: 97.25%
+  
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/fef57b9c070cb9b868862c9cee9be4f3bc47507c/Images/6/6.plot.2.png)
+  
 </details>
 
 <details>
