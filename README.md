@@ -2,42 +2,6 @@
 ### DATA115 at WSU 
 
 ##### A small journal of the learning progress throughout the semester.
-1
-
-
-
-
-
-
-
-3
-
-
-
-
-
-
-
-
-
-
-4
-
-
-
-
-
-
-
-
-7
-
-
-
-
-
-
-
 
 <details>
   <summary>1. Visual Analysis</summary>
@@ -69,6 +33,8 @@
   https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.plotrent.png
   https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.plotwine.png
   https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.scatter.png
+
+</details>
 
 <details>
   <summary>3. Examining Correlations</summary>
