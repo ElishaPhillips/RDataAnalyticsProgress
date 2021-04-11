@@ -18,7 +18,6 @@
   
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/54d1843c76448c46112788c1f9bf88813e002b30/Images/1/scatter.1.1.png)
   </details>
-  #
   
   #### Analysis:
   
