@@ -55,7 +55,7 @@
  
  ##### $all.stats
  <details>
-  <summary>2. Rosner Test</summary>
+  <summary> Rosner Test</summary>
  
  > ###### $data.name
  > ###### [1] "COL$Cappuccino"
@@ -108,11 +108,13 @@
    > ###### Row 37, Hong Kong - $5,052
    #  
    
-   ###### In this specific case I would either exclude the rows from the dataset, or find an alternative dataset to crossreference. One could also estimate      the appropriate value instead, such as using a simple mean or a more complicated algorithm. 
+   ###### In this specific case I would either exclude the rows from the dataset, or find an alternative dataset to crossreference. One could also            estimate the appropriate value instead, such as using a simple mean or a more complicated algorithm. 
    #   
    
   ### Height Weight Age Sex Analysis
   ##### From Height_Weight_Age_Sex.csv
+  
+  ##### Boxplots of the Height and Weight distribution:
   
    <details>
     <summary> Boxplots for height and Weight Columns</summary>
@@ -123,7 +125,13 @@
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.boxplot.2.png)
   
    </details>
+   
+  #### Analysis:
+
+  ###### For the Height boxplot, the count distribution is asymetrical, with the majority of the data lying in the ~130 to 170 range. There lies some       notable outliers in the 50 through 75 range. The median is around 75% towards the top of the box, featuring a negative skew.
   
+  ##### For the Weight boxplot, the count distribution is also asymmetrical, with no outliers shown.The box plot is skewed negatively.
+
    <details>
     <summary> Histograms</summary>
   
@@ -134,6 +142,14 @@
   
    </details>
    
+  ##### Analysis:
+
+  ##### For the Height histogram, the count distribution is asymetrical, with a fairly symmetrical hill from ~130-170, and a dip in count at about 155. This is where the majority of the data lies. We do see a definitive negative skewness. From 50 through 125, there is a much smaller amount of values and a small outlier at the 179 mark. I was not expecting to see the amount of values in the 75-125 range, as compared to the boxplot. The symmetry and skewness analysis did remain consistent.
+
+  ##### For the Weight histogram, the count distribution is asymmetrical and has 2 peaks, one from 0-30 and another from 30-60. There are 3 notable outliers: at 7, and 11-12, and at 47. The graph is skewed negatively here as well.I ws not expecting to see the first hill, in the 0-30 range as compared to the boxplot, nor the outliers. The skewness analysis remained consistent. 
+
+  ###### Separate boxplots for the weight data separated by the Male variable:
+  
   <details>
     <summary> Boxplots Weight By Gender</summary>
   
@@ -143,9 +159,13 @@
   
   </details>
   
+   ##### Analysis: I noticed that the negative skew remains similar for both male and female weights, though the female weight remains lower on average      and has less of a distribution.
+
+   ##### Adding a BMI column and an underweight column:
+  
   <details>
     <summary> Histograms For BMI By Gender</summary>
-  
+
   ##### Histograms for BMI by Gender:  
   
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.hist.3.png)
@@ -154,7 +174,12 @@
   
   </details>
   
+  ##### Analysis: I noticed that the male BMI is more symmetrically skewed than the female BMI chart, though both are negatively skewed.The male histogram   also highlights two small outliers to the right.The male BMI also peaks at 1 lower than the female chart.
+
+
+  ###### Scatterplot of height vs. weight for the full dataset that distinguishes both by gender and whether or not the individual is underweight
   ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/4e914caf4a85a5b0c1b2b7789bdd8b1c8501fe35/Images/2/2.scatter.png)
+  
 </details>
 
 <details>
