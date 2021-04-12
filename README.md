@@ -307,7 +307,7 @@
   
   ##### QQ plot of the residuals:
    
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/69cc6cdcb131fa606bb0450ec1921619398692c3/Images/5/5resid2.png)
+  ![a]https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/69cc6cdcb131fa606bb0450ec1921619398692c3/Images/5/5resid2.png)
    
   ##### Residuals vs. Fitted 
    
