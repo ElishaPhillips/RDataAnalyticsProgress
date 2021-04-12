@@ -306,8 +306,8 @@
   ##### The coefficient of determination is: 0.75593
   
   ##### QQ plot of the residuals:
-   
-  ![a](https://github.com/ElishaPhillips/RDataAnalyticsProgress/blob/69cc6cdcb131fa606bb0450ec1921619398692c3/Images/5/5resid2.png)
+  
+  ![a](https://github.com/ElishaPhillips/R_Data_Analytics_Progress/blob/adfba694ee6c87225732ca44c14d014de263cd5a/Images/5/5resid2.png)
    
   ##### Residuals vs. Fitted 
    
