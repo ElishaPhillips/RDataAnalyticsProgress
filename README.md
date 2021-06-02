@@ -1,4 +1,4 @@
-# R Data Analytics 
+# Data Analytics in R Studio
 ### DATA115 at WSU 
 
 ##### A small journal of the learning progress throughout the semester.
